@@ -51,6 +51,7 @@ class Config:
     app_version: str
     proxy: str
     download_dir: str
+    auth_key: str
 
     @classmethod
     def from_env(cls) -> "Config":
@@ -95,4 +96,5 @@ class Config:
             app_version=os.environ.get("TELETHON_APP_VERSION", "1.0"),
             proxy=os.environ.get("TELETHON_PROXY", ""),
             download_dir=os.environ.get("TELETHON_DOWNLOAD_DIR", "/tmp/telethon"),
+            auth_key=os.environ.get("TELETHON_AUTH_KEY", "").strip(),
         )

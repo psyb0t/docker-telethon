@@ -20,6 +20,11 @@ EXPECTED_TOOLS = {
     "edit_message",
     "mark_read",
     "send_file",
+    "get_participants",
+    "create_group",
+    "delete_chat",
+    "join_chat",
+    "leave_chat",
 }
 
 

@@ -1,8 +1,8 @@
 """Tool definitions exposed via REST and MCP.
 
 Each tool is a coroutine `(holder, params) -> dict | list`. Pydantic models
-describe the input schema. The same registry is mounted as FastAPI routes
-under `/api/tools/<name>` and as MCP tools at `/mcp`.
+describe the input schema. The same registry drives the REST routes under
+`/api/` and the MCP tools at `/mcp`.
 """
 
 from __future__ import annotations
@@ -14,6 +14,12 @@ from typing import Any, Awaitable, Callable, Dict, List, Optional
 import httpx
 from pydantic import BaseModel, Field, ConfigDict
 from telethon.tl.custom.message import Message
+from telethon.tl.functions.channels import (
+    CreateChannelRequest,
+    DeleteChannelRequest,
+    JoinChannelRequest,
+    LeaveChannelRequest,
+)
 from telethon.tl.types import User
 
 from app.client import TelethonHolder
@@ -474,5 +480,161 @@ _register(
         ),
         params_model=SendFileParams,
         handler=_send_file,
+    )
+)
+
+
+# ---------------------------------------------------------------------------
+# get_participants
+# ---------------------------------------------------------------------------
+
+
+class GetParticipantsParams(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    chat: str
+    limit: int = Field(100, ge=1, le=1000)
+    search: Optional[str] = None
+
+
+async def _get_participants(
+    holder: TelethonHolder, params: GetParticipantsParams
+) -> List[Dict[str, Any]]:
+    async with holder.lock:
+        participants = await holder.client.get_participants(
+            _coerce_chat(params.chat),
+            limit=params.limit,
+            search=params.search or "",
+        )
+    return [_entity_to_dict(p) for p in participants]
+
+
+_register(
+    Tool(
+        name="get_participants",
+        description="List members of a group or channel.",
+        params_model=GetParticipantsParams,
+        handler=_get_participants,
+    )
+)
+
+
+# ---------------------------------------------------------------------------
+# create_group
+# ---------------------------------------------------------------------------
+
+
+class CreateGroupParams(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    title: str = Field(..., min_length=1, max_length=255)
+    megagroup: bool = Field(True, description="True = supergroup, False = broadcast channel.")
+
+
+async def _create_group(
+    holder: TelethonHolder, params: CreateGroupParams
+) -> Dict[str, Any]:
+    async with holder.lock:
+        result = await holder.client(
+            CreateChannelRequest(
+                title=params.title,
+                about="",
+                megagroup=params.megagroup,
+            )
+        )
+    return _entity_to_dict(result.chats[0])
+
+
+_register(
+    Tool(
+        name="create_group",
+        description="Create a new supergroup or broadcast channel.",
+        params_model=CreateGroupParams,
+        handler=_create_group,
+    )
+)
+
+
+# ---------------------------------------------------------------------------
+# delete_chat
+# ---------------------------------------------------------------------------
+
+
+class DeleteChatParams(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    chat: str
+
+
+async def _delete_chat(
+    holder: TelethonHolder, params: DeleteChatParams
+) -> Dict[str, Any]:
+    async with holder.lock:
+        entity = await holder.client.get_entity(_coerce_chat(params.chat))
+        await holder.client(DeleteChannelRequest(channel=entity))
+    return {"ok": True}
+
+
+_register(
+    Tool(
+        name="delete_chat",
+        description="Delete a supergroup or channel you own.",
+        params_model=DeleteChatParams,
+        handler=_delete_chat,
+    )
+)
+
+
+# ---------------------------------------------------------------------------
+# join_chat
+# ---------------------------------------------------------------------------
+
+
+class JoinChatParams(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    chat: str
+
+
+async def _join_chat(
+    holder: TelethonHolder, params: JoinChatParams
+) -> Dict[str, Any]:
+    async with holder.lock:
+        entity = await holder.client.get_entity(_coerce_chat(params.chat))
+        await holder.client(JoinChannelRequest(channel=entity))
+    return {"ok": True}
+
+
+_register(
+    Tool(
+        name="join_chat",
+        description="Join a public channel or supergroup.",
+        params_model=JoinChatParams,
+        handler=_join_chat,
+    )
+)
+
+
+# ---------------------------------------------------------------------------
+# leave_chat
+# ---------------------------------------------------------------------------
+
+
+class LeaveChatParams(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    chat: str
+
+
+async def _leave_chat(
+    holder: TelethonHolder, params: LeaveChatParams
+) -> Dict[str, Any]:
+    async with holder.lock:
+        entity = await holder.client.get_entity(_coerce_chat(params.chat))
+        await holder.client(LeaveChannelRequest(channel=entity))
+    return {"ok": True}
+
+
+_register(
+    Tool(
+        name="leave_chat",
+        description="Leave a channel or supergroup.",
+        params_model=LeaveChatParams,
+        handler=_leave_chat,
     )
 )

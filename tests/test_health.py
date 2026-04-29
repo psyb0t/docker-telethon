@@ -18,6 +18,7 @@ def test_openapi_present(http: httpx.Client) -> None:
     assert resp.status_code == 200
     spec = resp.json()
     paths = spec.get("paths", {})
-    assert "/api/tools" in paths
-    assert "/api/tools/{name}" in paths
+    assert "/api/me" in paths
+    assert "/api/messages" in paths
+    assert "/api/dialogs" in paths
     assert "/healthz" in paths
