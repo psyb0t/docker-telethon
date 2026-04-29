@@ -1,6 +1,6 @@
-# docker-telethon
+# docker-telethon-plus
 
-[![Docker Hub](https://img.shields.io/docker/pulls/psyb0t/telethon?style=flat-square)](https://hub.docker.com/r/psyb0t/telethon)
+[![Docker Hub](https://img.shields.io/docker/pulls/psyb0t/telethon-plus?style=flat-square)](https://hub.docker.com/r/psyb0t/telethon-plus)
 [![License: WTFPL](https://img.shields.io/badge/License-WTFPL-brightgreen.svg?style=flat-square)](http://www.wtfpl.net/)
 
 Your Telegram account, but it takes HTTP requests. Wraps [Telethon](https://codeberg.org/Lonami/Telethon) — the real MTProto userbot client, not that neutered Bot API garbage — behind a JSON HTTP API and a Model Context Protocol endpoint.
@@ -41,8 +41,8 @@ One Telethon client. One async lock. Both surfaces share the same tool registry 
 
 ```yaml
 services:
-  telethon:
-    image: psyb0t/telethon
+  telethon-plus:
+    image: psyb0t/telethon-plus
     ports:
       - "8080:8080"
     environment:
@@ -73,7 +73,7 @@ No repo? No problem:
 docker run --rm -it \
   -e TELETHON_API_ID=123456 \
   -e TELETHON_API_HASH=your-api-hash \
-  psyb0t/telethon login
+  psyb0t/telethon-plus login
 ```
 
 Copy the session string it spits out, set it as `TELETHON_SESSION`, done.
@@ -93,10 +93,10 @@ All config via environment variables. Copy `.env.example` to get the full list w
 | `TELETHON_LOG_LEVEL` | no | `INFO` | `DEBUG`, `INFO`, `WARNING`, `ERROR` |
 | `TELETHON_REQUEST_TIMEOUT` | no | `60` | Per-request timeout in seconds |
 | `TELETHON_FLOOD_SLEEP_THRESHOLD` | no | `60` | Auto-sleep through `FLOOD_WAIT` errors below this many seconds. Telegram will rate-limit you — this is the safety valve. |
-| `TELETHON_DEVICE_MODEL` | no | `docker-telethon` | What Telegram thinks your device is |
+| `TELETHON_DEVICE_MODEL` | no | `docker-telethon-plus` | What Telegram thinks your device is |
 | `TELETHON_SYSTEM_VERSION` | no | `1.0` | Ditto for OS |
 | `TELETHON_APP_VERSION` | no | `1.0` | Ditto for app |
-| `TELETHON_DOWNLOAD_DIR` | no | `/tmp/telethon` | Scratch space for `send_file` uploads |
+| `TELETHON_DOWNLOAD_DIR` | no | `/tmp/telethon-plus` | Scratch space for `send_file` uploads |
 | `TELETHON_AUTH_KEY` | no | `""` | When set, all endpoints require `Authorization: Bearer <key>`. `/healthz` stays public. Empty = no auth. |
 
 ## Tools
@@ -589,8 +589,8 @@ Stateless — every request is independent, no session juggling. Drop it into Cl
 ## Development
 
 ```bash
-make build        # build psyb0t/telethon:latest
-make build-test   # build psyb0t/telethon:latest-test
+make build        # build psyb0t/telethon-plus:latest
+make build-test   # build psyb0t/telethon-plus:latest-test
 make run          # run locally on :8080 (reads .env)
 make login        # interactive login — writes TELETHON_SESSION to .env automatically
 make lint         # flake8 + pyright

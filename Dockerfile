@@ -14,7 +14,7 @@ RUN apt-get update && \
         tini \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN useradd -r -u 1000 -m -d /home/telethon -s /bin/sh telethon
+RUN useradd -r -u 1000 -m -d /home/telethon-plus -s /bin/sh telethon-plus
 
 COPY --from=builder /install /usr/local
 
@@ -23,9 +23,9 @@ WORKDIR /app
 COPY app/ /app/app/
 COPY login.py /app/login.py
 
-RUN chown -R telethon:telethon /app && touch /session && chmod 666 /session
+RUN chown -R telethon-plus:telethon-plus /app && touch /session && chmod 666 /session
 
-USER telethon
+USER telethon-plus
 
 ENV TELETHON_HTTP_LISTEN_ADDRESS=0.0.0.0:8080
 ENV PYTHONUNBUFFERED=1

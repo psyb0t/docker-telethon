@@ -1,4 +1,4 @@
-"""Interactive login flow — run via `docker run psyb0t/telethon login`."""
+"""Interactive login flow — run via `docker run psyb0t/telethon-plus login`."""
 
 from __future__ import annotations
 

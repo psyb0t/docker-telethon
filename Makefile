@@ -1,4 +1,4 @@
-IMAGE_NAME := psyb0t/telethon
+IMAGE_NAME := psyb0t/telethon-plus
 TAG        := latest
 TEST_TAG   := $(TAG)-test
 

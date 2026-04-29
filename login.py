@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Thin shim — kept for backwards compat. Prefer: docker run psyb0t/telethon login"""
+"""Thin shim — kept for backwards compat. Prefer: docker run psyb0t/telethon-plus login"""
 
 import sys
 

@@ -91,10 +91,10 @@ class Config:
                 os.environ.get("TELETHON_REQUEST_TIMEOUT", "60")
             ),
             flood_sleep_threshold=_int("TELETHON_FLOOD_SLEEP_THRESHOLD", 60),
-            device_model=os.environ.get("TELETHON_DEVICE_MODEL", "docker-telethon"),
+            device_model=os.environ.get("TELETHON_DEVICE_MODEL", "docker-telethon-plus"),
             system_version=os.environ.get("TELETHON_SYSTEM_VERSION", "1.0"),
             app_version=os.environ.get("TELETHON_APP_VERSION", "1.0"),
             proxy=os.environ.get("TELETHON_PROXY", ""),
-            download_dir=os.environ.get("TELETHON_DOWNLOAD_DIR", "/tmp/telethon"),
+            download_dir=os.environ.get("TELETHON_DOWNLOAD_DIR", "/tmp/telethon-plus"),
             auth_key=os.environ.get("TELETHON_AUTH_KEY", "").strip(),
         )

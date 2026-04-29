@@ -67,7 +67,7 @@ async def test_mcp_get_me(base_url: str) -> None:
 @pytest.mark.asyncio
 async def test_mcp_send_and_delete(base_url: str, env: dict[str, str]) -> None:
     chat = env["TEST_CHAT"]
-    text = "docker-telethon-mcp-test"
+    text = "docker-telethon-plus-mcp-test"
 
     async with streamablehttp_client(_mcp_url(base_url)) as (read, write, _):
         async with ClientSession(read, write) as session:

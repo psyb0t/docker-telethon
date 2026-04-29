@@ -40,7 +40,7 @@ def test_get_me(http: httpx.Client) -> None:
 
 def test_send_and_read_roundtrip(http: httpx.Client, env: dict[str, str]) -> None:
     chat = env["TEST_CHAT"]
-    marker = f"docker-telethon-test-{httpx.__name__}-roundtrip"
+    marker = f"docker-telethon-plus-test-{httpx.__name__}-roundtrip"
 
     sent = http.post("/api/messages", json={"chat": chat, "text": marker, "silent": True})
     assert sent.status_code == 200, sent.text
@@ -102,10 +102,10 @@ def test_read_public_channel(http: httpx.Client) -> None:
 
 
 def test_create_and_delete_group(http: httpx.Client) -> None:
-    created = http.post("/api/chats", json={"title": "docker-telethon-test-group"})
+    created = http.post("/api/chats", json={"title": "docker-telethon-plus-test-group"})
     assert created.status_code == 200, created.text
     group = created.json()["result"]
-    assert group["title"] == "docker-telethon-test-group"
+    assert group["title"] == "docker-telethon-plus-test-group"
     assert isinstance(group["id"], int)
 
     chat_id = str(group["id"])
@@ -115,7 +115,7 @@ def test_create_and_delete_group(http: httpx.Client) -> None:
 
 
 def test_get_participants_of_own_group(http: httpx.Client) -> None:
-    created = http.post("/api/chats", json={"title": "docker-telethon-test-participants"})
+    created = http.post("/api/chats", json={"title": "docker-telethon-plus-test-participants"})
     assert created.status_code == 200, created.text
     chat_id = str(created.json()["result"]["id"])
 

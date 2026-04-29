@@ -431,7 +431,7 @@ async def _send_file(
     if not params.file_url.startswith(("http://", "https://")):
         raise ValueError("file_url must be http(s)")
 
-    os.makedirs("/tmp/telethon", exist_ok=True)
+    os.makedirs("/tmp/telethon-plus", exist_ok=True)
     async with httpx.AsyncClient(timeout=60.0, follow_redirects=True) as http:
         async with http.stream("GET", params.file_url) as resp:
             resp.raise_for_status()
@@ -441,7 +441,7 @@ async def _send_file(
                     f"file too large: {length} > {params.max_bytes}"
                 )
 
-            tmp_path = f"/tmp/telethon/upload-{os.getpid()}-{id(resp)}"
+            tmp_path = f"/tmp/telethon-plus/upload-{os.getpid()}-{id(resp)}"
             written = 0
             with open(tmp_path, "wb") as fh:
                 async for chunk in resp.aiter_bytes(1 << 16):

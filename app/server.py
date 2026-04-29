@@ -80,7 +80,7 @@ async def _parse_body(request: Request) -> dict:
 
 def build_mcp(holder: TelethonHolder, host: str, port: int) -> FastMCP:
     mcp = FastMCP(
-        name="docker-telethon",
+        name="docker-telethon-plus",
         instructions=(
             "Telegram client tools backed by Telethon. "
             "All chat references accept usernames, phone numbers, t.me links, "
@@ -138,7 +138,7 @@ def build_app(cfg: Config) -> FastAPI:
                 await holder.stop()
 
     app = FastAPI(
-        title="docker-telethon",
+        title="docker-telethon-plus",
         description="HTTP + MCP front-end for the Telethon Telegram client.",
         version="1.0.0",
         lifespan=lifespan,

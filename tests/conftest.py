@@ -14,8 +14,8 @@ import pytest
 from dotenv import dotenv_values
 
 ROOT = Path(__file__).resolve().parent.parent
-IMAGE = "psyb0t/telethon:latest-test"
-CONTAINER = "docker-telethon-tests"
+IMAGE = "psyb0t/telethon-plus:latest-test"
+CONTAINER = "docker-telethon-plus-tests"
 
 
 def _load_env() -> dict[str, str]:

@@ -23,3 +23,5 @@ tests/
 README.md
 LICENSE
 Makefile
+CLAUDE.md
+git-update.sh
