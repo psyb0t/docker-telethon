@@ -1,0 +1,17 @@
+name: pipeline
+
+on: [push]
+
+jobs:
+  call-docker-image-workflow:
+    uses: psyb0t/reusable-github-workflows/.github/workflows/docker-image-workflow.yml@master
+
+    with:
+      repository_name: psyb0t/telethon
+      target_platforms: "linux/amd64,linux/arm64"
+      scan_severity: "high"
+      cache_mode: "min"
+
+    secrets:
+      dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
+      dockerhub_token: ${{ secrets.DOCKERHUB_TOKEN }}

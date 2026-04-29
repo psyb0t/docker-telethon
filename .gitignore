@@ -1,0 +1,30 @@
+# env / secrets
+.env
+tests/.env
+.session.tmp
+
+# python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.venv/
+venv/
+
+# telethon sessions
+*.session
+*.session-journal
+
+# tools / caches
+.mypy_cache/
+.pytest_cache/
+.pyright/
+.ruff_cache/
+
+# build artifacts
+build/
+dist/
+
+# research / scratch
+.research_files/
