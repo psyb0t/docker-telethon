@@ -1,4 +1,4 @@
-# telethon
+# docker-telethon
 
 [![Docker Hub](https://img.shields.io/docker/pulls/psyb0t/telethon?style=flat-square)](https://hub.docker.com/r/psyb0t/telethon)
 [![License: WTFPL](https://img.shields.io/badge/License-WTFPL-brightgreen.svg?style=flat-square)](http://www.wtfpl.net/)
