@@ -114,6 +114,8 @@ Chat references (`chat`, `from_chat`, `to_chat`) accept whatever Telethon accept
 | Supergroup/channel ID | `-1001234567890` |
 | Your own Saved Messages | `me` |
 
+> **Numeric IDs only resolve for entities Telethon has already seen** — i.e. cached in your session via a prior `@username` / `t.me` lookup, dialog list, or incoming message. MTProto needs an `access_hash`, not just an ID, and bare numbers don't carry one. Especially relevant for bots: pass `@botusername` first (or call `GET /api/dialogs` / `GET /api/entities?chat=@bot` once) before referring to it by numeric ID. If you only have the bot's token and no username, hit Telegram's Bot API `getMe` to fetch the username, then use that.
+
 ### Quick reference
 
 | Endpoint | Required params | What it does |
